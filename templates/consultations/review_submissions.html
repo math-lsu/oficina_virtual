@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Entregas de estudiantes</h2>
+{% if submissions %}
+    <table class="table">
+        <thead><tr><th>Estudiante</th><th>Ejercicio</th><th>Título entrega</th><th>Fecha</th><th>Descargar</th></tr></thead>
+        <tbody>
+            {% for sub in submissions %}
+                <tr>
+                    <td>{{ sub.student.get_full_name|default:sub.student.username }}</td>
+                    <td>{{ sub.parent_document.title|default:"—" }}</td>
+                    <td>{{ sub.title }}</td>
+                    <td>{{ sub.uploaded_at|date:"d/m/Y" }}</td>
+                    <td><a href="{% url 'consultations:download_document' sub.id %}" class="btn btn-sm btn-warning">Descargar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay entregas pendientes de revisión.</p>
+{% endif %}
+{% endblock %}

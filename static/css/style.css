@@ -1,0 +1,111 @@
+body {
+        background-image: url('/static/images/myboard.png');  /* Ajusta el nombre real de tu archivo */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        position: relative;
+        }
+    /* Overlay blanco semitransparente para que el texto sea legible */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.80);
+        z-index: -1;
+        }
+        /* Mejora de tipografía */
+        h1, h2, h3, .display-5 {
+        font-family: 'Merriweather', 'Segoe UI', serif;
+        font-weight: 700;
+        }
+        .lead, .card-text {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        }
+        /* Ajuste de espaciado en el main */
+        main.container {
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        }
+        /* Separador decorativo opcional */
+        .separator {
+        width: 120px;
+        height: 2px;
+        opacity: 0.7;
+        background-color: #0d6efd;
+        margin: 1.5rem auto;
+        border-radius: 2px;
+        margin-bottom: 2rem;
+        transition: width 0.3s ease;
+        }
+
+        .separator:hover {
+        width: 160px;
+        }
+
+        .card-shadow:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .card {
+        border-radius: 1rem;  /* más redondeadas, opcional */
+        }
+
+        .navbar-brand i { margin-right: 8px; }
+        /* Mejoras para el footer */
+        .footer {
+            background-color: #212529;  /* un poco más oscuro que bg-dark */
+            color: #f8f9fa;
+            padding: 2rem 0 1rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer a:hover {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+        .footer h5 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .footer .social-icons i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: transform 0.2s;
+        }
+        .footer .social-icons i:hover {
+            transform: translateY(-2px);
+            color: #0d6efd;
+        }
+        .footer .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .card-highlight {border-top: 4px solid #0d6efd; }
+        .card-shadow { box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .card-shadow:hover { transform: translateY(-3px); }
+        .btn-primary { background-color: #0d6efd; border-color: #0d6efd; }
+        .btn-outline-secondary { background-color: #0d6efd; border-color: #0d6efd; color: white; }
+        .notification-badge { position: relative; top: -10px; left: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; }
+        .dropdown-menu { min-width: 200px; }
+
+        /* Forzar negrita para strong y b */
+        strong, b {
+            font-weight: 700 !important;
+    }

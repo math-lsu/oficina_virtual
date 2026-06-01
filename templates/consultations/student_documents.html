@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Mis documentos</h2>
+{% if documents %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Tipo</th>
+                <th>Profesor</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in documents %}
+                <tr>
+                    <td>{{ doc.title }}</td>
+                    <td>{{ doc.get_document_type_display }}</td>
+                    <td>{{ doc.teacher.get_full_name|default:doc.teacher.username }}</td>
+                    <td>{{ doc.uploaded_at|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{% url 'consultations:download_document' doc.id %}" class="btn btn-sm btn-primary">Descargar</a>
+                        <form method="post" action="{% url 'consultations:hide_document' doc.id %}" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-secondary">Ocultar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay documentos disponibles.</p>
+{% endif %}
+{% endblock %}

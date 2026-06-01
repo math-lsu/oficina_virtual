@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Responder consulta: {{ consultation.title }}</div>
+            <div class="card-body">
+                <p><strong>Estudiante:</strong> {{ consultation.student.get_full_name|default:consultation.student.username }}</p>
+                <div class="alert alert-secondary">
+                    {{ consultation.description|linebreaks }}
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Enviar respuesta</button>
+                    <a href="{% url 'consultations:teacher_dashboard' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

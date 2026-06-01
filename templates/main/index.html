@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+    <i class="fas fa-chalkboard-user fa-4x text-primary mb-3"></i>
+    <h1 class="display-5 fw-bold">Oficina Virtual</h1>
+    <div class="separator"></div>
+    <p class="lead fs-3">Matemáticas sin miedo, desde secundaria hasta la universidad</p>
+    <div class="col-lg-8 mx-auto">
+        
+        <p class="lead mb-4">
+                    ¿Problemas de álgebra, cálculo, geometría, trigonometría, matemáticas financieras, probabilidad y estadística que parecen imposibles de resolver?<br>
+                    Conectamos estudiantes con <strong>profesores universitarios, matemáticos del más alto nivel</strong>, con grados de maestría y doctorado de universidades nacionales, de Europa y de Estados Unidos.<br>
+                    Solicita asesorías, comparte tus ejercicios y recibe retroalimentación clara paso a paso.
+                </p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-primary btn-lg px-4 gap-3">Ir a mi panel</a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg px-4">Iniciar sesión</a>
+            <a href="{% url 'accounts:register' %}" class="btn btn-outline-secondary btn-lg px-4">Registrarse</a>
+        {% endif %}
+    </div>
+</div>
+    <div class="separator"></div>
+<div class="row g-4 py-5">
+    <div class="col-md-6">
+        <div class="card h-100 card-shadow card-highlight">
+            <div class="card-body text-center">
+                <i class="fas fa-user-graduate fa-3x text-primary"></i>
+                <h3 class="card-title mt-3">Para estudiantes</h3>
+                <p class="card-text">Solicita consultas personalizadas de: álgebra, geometría, cálculo, estadística, probabilidad, matemática financiera y más. Sube tus parciales o guías y recibe correcciones explicadas.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 card-shadow card-highlight">
+            <div class="card-body text-center">
+                <i class="fas fa-chalkboard-teacher fa-3x text-primary"></i>
+                <h3 class="card-title mt-3">Para profesores</h3>
+                <p class="card-text">Gestiona consultas de matemáticas, comparte materiales (PDF, videos, ejercicios resueltos), revisa entregas y envía retroalimentación detallada a tus estudiantes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-shadow text-center" style="border-top: 4px solid #0d6efd; border-radius: 1rem;">
+                <div class="card-body p-5">
+                    <i class="fas fa-chalkboard-user fa-4x text-primary mb-3"></i>
+                    <h2 class="mb-3">¡Bienvenido, {{ user.get_full_name|default:user.username }}!</h2>
+                    <p class="lead mb-2">Tu rol en la plataforma es: <strong>{{ user.get_role_display }}</strong></p>
+                    <p class="text-muted mb-4">Accede a tu panel personalizado para gestionar tus asesorías, materiales y consultas.</p>
+                    <a href="{% if user.role == 'student' %}{% url 'consultations:student_dashboard' %}{% else %}{% url 'consultations:teacher_dashboard' %}{% endif %}" 
+                       class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-arrow-right me-2"></i>Ir a mi dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

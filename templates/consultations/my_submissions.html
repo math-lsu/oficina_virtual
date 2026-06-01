@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Mis entregas</h2>
+{% if submissions %}
+    <table class="table">
+        <thead><tr><th>Título</th><th>Ejercicio original</th><th>Fecha</th><th>Descargar</th></tr></thead>
+        <tbody>
+            {% for sub in submissions %}
+                <tr>
+                    <td>{{ sub.title }}</td>
+                    <td>{{ sub.parent_document.title|default:"—" }}</td>
+                    <td>{{ sub.uploaded_at|date:"d/m/Y" }}</td>
+                    <td><a href="{% url 'consultations:download_document' sub.id %}" class="btn btn-sm btn-info">Descargar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Aún no has realizado entregas.</p>
+{% endif %}
+{% endblock %}

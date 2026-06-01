@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Ejercicios asignados</h2>
+{% if exercises %}
+    <table class="table">
+        <thead>
+            <tr><th>Título</th><th>Descripción</th><th>Profesor</th><th>Acción</th></tr>
+        </thead>
+        <tbody>
+            {% for ex in exercises %}
+                <tr>
+                    <td>{{ ex.title }}</td>
+                    <td>{{ ex.description|truncatewords:15 }}</td>
+                    <td>{{ ex.teacher.get_full_name|default:ex.teacher.username }}</td>
+                    <td><a href="{% url 'consultations:submit_exercise' ex.id %}" class="btn btn-sm btn-success">Entregar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay ejercicios asignados.</p>
+{% endif %}
+{% endblock %}

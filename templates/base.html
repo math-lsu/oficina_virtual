@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina Virtual - Consultoría académica</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-chalkboard-user"></i> Oficina Virtual</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <!-- Menú desplegable con el nombre del usuario -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_superuser %}
+                                    <li><a class="dropdown-item" href="{% url 'consultations:teacher_dashboard' %}"><i class="fas fa-chalkboard-teacher"></i> Panel Profesor</a></li>
+                                    <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog"></i> Admin</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="
+                                        {% if user.role == 'teacher' %}{% url 'consultations:teacher_dashboard' %}
+                                        {% elif user.role == 'student' %}{% url 'consultations:student_dashboard' %}
+                                        {% else %}{% url 'accounts:dashboard' %}{% endif %}
+                                    "><i class="fas fa-tachometer-alt"></i> Panel</a></li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="{% url 'consultations:notifications' %}"><i class="fas fa-bell"></i> Notificaciones
+                                    {% with unread=user.notifications.filter.is_read.count %}
+                                        {% if unread %}
+                                            <span class="badge bg-danger ms-2">{{ unread }}</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'accounts:logout' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Iniciar sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:register' %}">Registrarse</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- Columna 1: Acerca de -->
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5>Oficina Virtual</h5>
+                <p class="small">Asesorías personalizadas en matemáticas, desde secundaria hasta nivel universitario. Profesores de alto nivel académico.</p>
+            </div>
+            <!-- Columna 2: Enlaces rápidos -->
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5>Enlaces</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Cómo funciona</a></li>
+                    <li><a href="#">Profesores</a></li>
+                    <li><a href="#">Preguntas frecuentes</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+            <!-- Columna 3: Redes sociales y contacto -->
+            <div class="col-md-4">
+                <h5>Síguenos</h5>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <p class="small mt-3">Email: contacto@oficinavirtual.com</p>
+            </div>
+        </div>
+        <div class="copyright text-center">
+            &copy; 2025 Oficina Virtual - Asesorías en Matemáticas (secundaria y universitaria)
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

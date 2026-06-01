@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3>{{ consultation.title }}</h3>
+                <span class="badge {% if consultation.status == 'pending' %}bg-warning{% else %}bg-success{% endif %}">{{ consultation.get_status_display }}</span>
+            </div>
+            <div class="card-body">
+                <p><strong>Estudiante:</strong> {{ consultation.student.get_full_name|default:consultation.student.username }}</p>
+                <p><strong>Profesor:</strong> {{ consultation.teacher.get_full_name|default:consultation.teacher.username }}</p>
+                <p><strong>Fecha:</strong> {{ consultation.created_at|date:"d/m/Y H:i" }}</p>
+                <hr>
+                <h5>Descripción:</h5>
+                <p>{{ consultation.description|linebreaks }}</p>
+                {% if consultation.resolution %}
+                    <hr>
+                    <h5>Respuesta del profesor:</h5>
+                    <div class="alert alert-success">{{ consultation.resolution|linebreaks }}</div>
+                {% elif consultation.status == 'pending' and user == consultation.teacher %}
+                    <a href="{% url 'consultations:respond_request' consultation.pk %}" class="btn btn-primary">Responder</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Documentos adjuntos</div>
+            <ul class="list-group list-group-flush">
+                {% for doc in documents %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ doc.title }}</strong> ({{ doc.get_document_type_display }})<br>
+                            <small>Subido el {{ doc.uploaded_at|date:"d/m/Y" }}</small>
+                        </div>
+                        <a href="{% url 'consultations:download_document' doc.id %}" class="btn btn-sm btn-primary">Descargar</a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No hay documentos adjuntos.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

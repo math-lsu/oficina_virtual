@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Dashboard de Profesor</h2>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Consultas pendientes</h5>
+                <p class="display-4">{{ pending_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a href="{% url 'consultations:upload_document' %}" class="btn btn-success">Subir documento general</a>
+    <a href="{% url 'consultations:review_submissions' %}" class="btn btn-info">Revisar entregas</a>
+    <a href="{% url 'consultations:send_notification' %}" class="btn btn-primary"><i class="fas fa-envelope"></i> Enviar notificación</a>
+</div>
+
+<!-- Nueva sección: estudiantes asignados -->
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-users"></i> Mis estudiantes asignados
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for assignment in all_students %}
+            <li class="list-group-item">
+                {{ assignment.student.get_full_name|default:assignment.student.username }}
+                ({{ assignment.student.email }})
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted">No tienes estudiantes asignados aún.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Consultas pendientes</div>
+    <div class="list-group list-group-flush">
+        {% for req in pending_requests %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>{{ req.title }}</strong> - {{ req.student.get_full_name|default:req.student.username }}
+                        <br><small>{{ req.created_at|date:"d/m/Y H:i" }}</small>
+                    </div>
+                    <a href="{% url 'consultations:respond_request' req.pk %}" class="btn btn-sm btn-primary">Responder</a>
+                </div>
+                <p class="mt-2">{{ req.description|truncatewords:20 }}</p>
+            </div>
+        {% empty %}
+            <div class="list-group-item">No hay consultas pendientes.</div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Consultas resueltas</div>
+    <div class="list-group list-group-flush">
+        {% for req in resolved_requests %}
+            <a href="{% url 'consultations:view_request' req.pk %}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <span><strong>{{ req.title }}</strong> - {{ req.student.get_full_name|default:req.student.username }}</span>
+                    <small>Resuelta: {{ req.resolved_at|date:"d/m/Y" }}</small>
+                </div>
+            </a>
+        {% empty %}
+            <div class="list-group-item">No hay consultas resueltas.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
