@@ -30,7 +30,11 @@ if not SECRET_KEY:
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['https://oficina-virtual-q0x2.onrender.com', 'localhost']
+
+#ALLOWED_HOSTS = ['https://oficina-virtual-q0x2.onrender.com', 'localhost']
+
+#  CORRECTO (solo el dominio limpio)
+ALLOWED_HOSTS = ['oficina-virtual-q0x2.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 AUTH_USER_MODEL = 'accounts.User'
