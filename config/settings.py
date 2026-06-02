@@ -29,8 +29,8 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://oficina-virtual-q0x2.onrender.com', 'localhost']
 
 # Application definition
 AUTH_USER_MODEL = 'accounts.User'
